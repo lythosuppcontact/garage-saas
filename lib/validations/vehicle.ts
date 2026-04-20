@@ -34,13 +34,11 @@ export const vehicleSchema = z.object({
     z.string().trim().max(100).nullable()
   ),
 
-  year: z.preprocess(
-    emptyToNull,
 year: z.preprocess(
   emptyToNull,
   z.coerce
     .number()
-    .refine((val) => !isNaN(val), {
+    .refine((val) => !Number.isNaN(val), {
       message: "L'année doit être un nombre",
     })
     .int("L'année doit être un entier")
@@ -48,22 +46,18 @@ year: z.preprocess(
     .max(2100, "Année invalide")
     .nullable()
 ),
-      .int("L'année doit être un entier")
-      .min(1900, "Année invalide")
-      .max(2100, "Année invalide")
-      .nullable()
-  ),
 
-  mileage: z.preprocess(
-    emptyToNull,
-    z.coerce
-      .number({
-        invalid_type_error: "Le kilométrage doit être un nombre",
-      })
-      .int("Le kilométrage doit être un entier")
-      .min(0, "Le kilométrage ne peut pas être négatif")
-      .nullable()
-  ),
+mileage: z.preprocess(
+  emptyToNull,
+  z.coerce
+    .number()
+    .refine((val) => !Number.isNaN(val), {
+      message: "Le kilométrage doit être un nombre",
+    })
+    .int("Le kilométrage doit être un entier")
+    .min(0, "Le kilométrage ne peut pas être négatif")
+    .nullable()
+),
 
   fuel_type: z.preprocess(
     emptyToNull,
@@ -80,17 +74,17 @@ year: z.preprocess(
     z.string().trim().max(50).nullable()
   ),
 
-  power_hp: z.preprocess(
-    emptyToNull,
-    z.coerce
-      .number({
-        invalid_type_error: "La puissance doit être un nombre",
-      })
-      .int("La puissance doit être un entier")
-      .min(0, "La puissance ne peut pas être négative")
-      .nullable()
-  ),
-
+power_hp: z.preprocess(
+  emptyToNull,
+  z.coerce
+    .number()
+    .refine((val) => !Number.isNaN(val), {
+      message: "La puissance doit être un nombre",
+    })
+    .int("La puissance doit être un entier")
+    .min(0, "La puissance ne peut pas être négative")
+    .nullable()
+),
   first_registration_date: z.preprocess(
     emptyToNull,
     z.string().trim().nullable()
