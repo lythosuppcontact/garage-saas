@@ -108,7 +108,17 @@ export default function QuotesListPage() {
       return;
     }
 
-    setQuotes((data as QuoteRow[]) || []);
+    const normalizedQuotes: QuoteRow[] = ((data || []) as any[]).map((quote) => ({
+  ...quote,
+  customers: Array.isArray(quote.customers)
+    ? quote.customers[0] || null
+    : quote.customers || null,
+  vehicles: Array.isArray(quote.vehicles)
+    ? quote.vehicles[0] || null
+    : quote.vehicles || null,
+}));
+
+setQuotes(normalizedQuotes);
     setLoading(false);
   };
 
