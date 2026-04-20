@@ -163,30 +163,17 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     <div className="flex min-h-screen bg-black text-white">
       <aside className="flex w-80 flex-col border-r border-white/10 bg-[#090909] px-5 py-6">
         <div className="mb-8">
-          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-4 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/35">
-                  Lytho
-                </div>
-                <div className="mt-1 text-2xl font-black tracking-tight text-red-500">
-                  Devis
-                </div>
-              </div>
-
-              <div className="rounded-full border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-red-300">
-                MVP
-              </div>
+          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]">
+            <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/35">
+              Lytho
             </div>
 
-            <div className="mt-4 rounded-2xl border border-white/10 bg-black/30 px-3 py-3">
-              <div className="text-xs text-white/40">Entreprise</div>
-              <div className="mt-1 truncate text-sm font-semibold text-white">
-                {company.name || "Espace entreprise"}
-              </div>
-              <div className="mt-1 text-xs text-white/45">
-                {businessConfig.label}
-              </div>
+            <div className="mt-1 text-3xl font-black tracking-tight text-red-500">
+              Devis
+            </div>
+
+            <div className="mt-4 inline-flex rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-white/55">
+              {businessConfig.label}
             </div>
           </div>
         </div>
@@ -256,18 +243,6 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </nav>
 
         <div className="mt-auto pt-8">
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <div className="text-xs font-medium uppercase tracking-[0.18em] text-white/30">
-              Produit
-            </div>
-            <div className="mt-2 text-sm text-white/75">
-              Application de devis et factures multi-métiers.
-            </div>
-            <div className="mt-3 text-xs text-white/35">
-              {businessConfig.description}
-            </div>
-          </div>
-
           <div className="mt-4">
             <button
               type="button"
@@ -282,23 +257,6 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       </aside>
 
       <main className="min-w-0 flex-1">
-        <div className="sticky top-0 z-10 border-b border-white/10 bg-black/70 px-8 py-5 backdrop-blur-xl">
-          <div className="flex items-center justify-between gap-4">
-            <div>
-              <div className="text-lg font-semibold text-white">
-                Espace de gestion
-              </div>
-              <div className="mt-1 text-sm text-white/40">
-                {businessConfig.description}
-              </div>
-            </div>
-
-            <div className="hidden rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-white/45 md:block">
-              {businessConfig.label}
-            </div>
-          </div>
-        </div>
-
         <div>{children}</div>
       </main>
     </div>
