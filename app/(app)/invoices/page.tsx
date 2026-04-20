@@ -180,7 +180,14 @@ export default function InvoicesPage() {
         return;
       }
 
-      setQuotes((data as QuoteOption[]) || []);
+      const normalizedQuotes: QuoteOption[] = ((data || []) as any[]).map((quote) => ({
+  ...quote,
+  customers: Array.isArray(quote.customers)
+    ? quote.customers[0] || null
+    : quote.customers || null,
+}));
+
+setQuotes(normalizedQuotes);
     } catch (error) {
       console.error(error);
       showToast({
