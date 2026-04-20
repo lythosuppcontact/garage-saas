@@ -622,7 +622,14 @@ export default function InvoiceDetailPage() {
           return;
         }
 
-        setInvoice(data as Invoice);
+        const normalizedInvoice: Invoice = {
+  ...data,
+  customers: Array.isArray(data.customers)
+    ? data.customers[0] || null
+    : data.customers || null,
+};
+
+setInvoice(normalizedInvoice);
 
         const { data: itemsData, error: itemsError } = await supabase
           .from("invoice_items")
