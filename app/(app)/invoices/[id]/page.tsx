@@ -627,6 +627,9 @@ export default function InvoiceDetailPage() {
   customers: Array.isArray(data.customers)
     ? data.customers[0] || null
     : data.customers || null,
+  vehicles: Array.isArray(data.vehicles)
+    ? data.vehicles[0] || null
+    : data.vehicles || null,
 };
 
 setInvoice(normalizedInvoice);
