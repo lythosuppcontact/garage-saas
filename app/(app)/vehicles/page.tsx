@@ -101,7 +101,14 @@ export default function VehiclesPage() {
         return;
       }
 
-      setVehicles((data as Vehicle[]) || []);
+      const normalizedVehicles: Vehicle[] = ((data || []) as any[]).map((vehicle) => ({
+  ...vehicle,
+  customers: Array.isArray(vehicle.customers)
+    ? vehicle.customers[0] || null
+    : vehicle.customers || null,
+}));
+
+setVehicles(normalizedVehicles);
     } catch (error) {
       console.error(error);
       showToast({
