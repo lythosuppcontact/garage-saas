@@ -122,7 +122,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
   if (loadingCompany) {
     return (
-      <div className="min-h-screen bg-black p-8 text-white">
+      <div className="min-h-screen bg-[#050505] p-8 text-white">
         Chargement...
       </div>
     );
@@ -130,7 +130,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
   if (!company) {
     return (
-      <div className="min-h-screen bg-black p-8 text-white">
+      <div className="min-h-screen bg-[#050505] p-8 text-white">
         Chargement...
       </div>
     );
@@ -160,25 +160,34 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className="flex min-h-screen bg-black text-white">
-      <aside className="flex w-80 flex-col border-r border-white/10 bg-[#090909] px-5 py-6">
+    <div className="flex min-h-screen bg-[#050505] text-white">
+      <aside className="flex w-[290px] flex-col border-r border-white/8 bg-[#080808] px-5 py-6">
         <div className="mb-8">
-          <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]">
-            <div className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/35">
-              Lytho
+          <div className="rounded-[30px] border border-white/10 bg-gradient-to-b from-white/[0.05] to-white/[0.015] p-5 shadow-[0_0_0_1px_rgba(255,255,255,0.02)]">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <div className="text-[10px] font-semibold uppercase tracking-[0.32em] text-white/28">
+                  Lytho
+                </div>
+
+                <div className="mt-2 text-[30px] font-black leading-none tracking-[-0.04em]">
+                  <span className="text-white">De</span>
+                  <span className="text-red-500">vis</span>
+                </div>
+              </div>
+
+              <div className="mt-1 h-2.5 w-2.5 rounded-full bg-red-500 shadow-[0_0_16px_rgba(239,68,68,0.8)]" />
             </div>
 
-            <div className="mt-1 text-3xl font-black tracking-tight text-red-500">
-              Devis
-            </div>
-
-            <div className="mt-4 inline-flex rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs text-white/55">
-              {businessConfig.label}
+            <div className="mt-5 flex items-center">
+              <div className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium text-white/60">
+                {businessConfig.label}
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="mb-3 px-2 text-[11px] font-medium uppercase tracking-[0.18em] text-white/30">
+        <div className="mb-3 px-2 text-[11px] font-medium uppercase tracking-[0.2em] text-white/25">
           Navigation
         </div>
 
@@ -243,21 +252,19 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </nav>
 
         <div className="mt-auto pt-8">
-          <div className="mt-4">
-            <button
-              type="button"
-              onClick={handleLogout}
-              disabled={loggingOut}
-              className="w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-medium text-white/75 transition hover:bg-white/[0.06] hover:text-white disabled:opacity-50"
-            >
-              {loggingOut ? "Déconnexion..." : "Se déconnecter"}
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={loggingOut}
+            className="w-full rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm font-medium text-white/75 transition hover:border-white/15 hover:bg-white/[0.06] hover:text-white disabled:opacity-50"
+          >
+            {loggingOut ? "Déconnexion..." : "Se déconnecter"}
+          </button>
         </div>
       </aside>
 
-      <main className="min-w-0 flex-1">
-        <div>{children}</div>
+      <main className="min-w-0 flex-1 bg-[#050505]">
+        <div className="h-full">{children}</div>
       </main>
     </div>
   );
@@ -278,8 +285,8 @@ function NavItem({
       className={[
         "group relative flex items-center gap-3 overflow-hidden rounded-2xl border px-4 py-3 text-sm font-medium transition-all duration-200",
         isActive
-          ? "border-red-500/30 bg-red-500/[0.14] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
-          : "border-transparent bg-transparent text-white/70 hover:border-white/10 hover:bg-white/[0.04] hover:text-white",
+          ? "border-red-500/25 bg-red-500/[0.12] text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]"
+          : "border-transparent bg-transparent text-white/65 hover:border-white/10 hover:bg-white/[0.04] hover:text-white",
       ].join(" ")}
     >
       <span
