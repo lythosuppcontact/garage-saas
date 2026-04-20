@@ -89,9 +89,7 @@ export default function DashboardPage() {
     return new Intl.DateTimeFormat("fr-CH").format(date);
   };
 
-  const getCustomerName = (
-    customer: CustomerSummary | null | undefined
-  ) =>
+  const getCustomerName = (customer: CustomerSummary | null | undefined) =>
     [customer?.first_name, customer?.last_name].filter(Boolean).join(" ") ||
     customer?.email ||
     "-";
