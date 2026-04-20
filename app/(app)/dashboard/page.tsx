@@ -14,17 +14,19 @@ type DashboardStats = {
   totalQuotes: number;
 };
 
+type CustomerSummary = {
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+};
+
 type RecentQuote = {
   id: string;
   number: string;
   status: string;
   issue_date: string | null;
   total_amount: number | null;
-  customers: {
-    first_name: string | null;
-    last_name: string | null;
-    email: string | null;
-  } | null;
+  customers: CustomerSummary | null;
 };
 
 type RecentInvoice = {
@@ -34,11 +36,26 @@ type RecentInvoice = {
   issue_date: string | null;
   total_amount: number | null;
   balance_due: number | null;
-  customers: {
-    first_name: string | null;
-    last_name: string | null;
-    email: string | null;
-  } | null;
+  customers: CustomerSummary | null;
+};
+
+type SupabaseRecentQuoteRow = {
+  id: string;
+  number: string;
+  status: string;
+  issue_date: string | null;
+  total_amount: number | null;
+  customers: CustomerSummary[] | CustomerSummary | null;
+};
+
+type SupabaseRecentInvoiceRow = {
+  id: string;
+  number: string;
+  status: string;
+  issue_date: string | null;
+  total_amount: number | null;
+  balance_due: number | null;
+  customers: CustomerSummary[] | CustomerSummary | null;
 };
 
 export default function DashboardPage() {
@@ -73,18 +90,19 @@ export default function DashboardPage() {
   };
 
   const getCustomerName = (
-    customer:
-      | {
-          first_name: string | null;
-          last_name: string | null;
-          email: string | null;
-        }
-      | null
-      | undefined
+    customer: CustomerSummary | null | undefined
   ) =>
     [customer?.first_name, customer?.last_name].filter(Boolean).join(" ") ||
     customer?.email ||
     "-";
+
+  const normalizeCustomer = (
+    customer: CustomerSummary[] | CustomerSummary | null | undefined
+  ): CustomerSummary | null => {
+    if (!customer) return null;
+    if (Array.isArray(customer)) return customer[0] || null;
+    return customer;
+  };
 
   useEffect(() => {
     const loadStats = async () => {
@@ -213,8 +231,31 @@ export default function DashboardPage() {
           totalQuotes,
         });
 
-        setRecentQuotes((quotesRecent as RecentQuote[]) || []);
-        setRecentInvoices((invoicesRecent as RecentInvoice[]) || []);
+        const normalizedQuotes: RecentQuote[] = (
+          (quotesRecent || []) as SupabaseRecentQuoteRow[]
+        ).map((quote) => ({
+          id: quote.id,
+          number: quote.number,
+          status: quote.status,
+          issue_date: quote.issue_date,
+          total_amount: quote.total_amount,
+          customers: normalizeCustomer(quote.customers),
+        }));
+
+        const normalizedInvoices: RecentInvoice[] = (
+          (invoicesRecent || []) as SupabaseRecentInvoiceRow[]
+        ).map((invoice) => ({
+          id: invoice.id,
+          number: invoice.number,
+          status: invoice.status,
+          issue_date: invoice.issue_date,
+          total_amount: invoice.total_amount,
+          balance_due: invoice.balance_due,
+          customers: normalizeCustomer(invoice.customers),
+        }));
+
+        setRecentQuotes(normalizedQuotes);
+        setRecentInvoices(normalizedInvoices);
       } finally {
         setLoading(false);
       }
@@ -307,7 +348,9 @@ export default function DashboardPage() {
           {loading ? (
             <EmptyRow label="Chargement..." />
           ) : recentQuotes.length === 0 ? (
-            <EmptyRow label={`Aucun ${businessConfig.dashboard.quotesLabel.toLowerCase()} récent.`} />
+            <EmptyRow
+              label={`Aucun ${businessConfig.dashboard.quotesLabel.toLowerCase()} récent.`}
+            />
           ) : (
             recentQuotes.map((quote) => (
               <RecentRow
@@ -332,7 +375,9 @@ export default function DashboardPage() {
           {loading ? (
             <EmptyRow label="Chargement..." />
           ) : recentInvoices.length === 0 ? (
-            <EmptyRow label={`Aucune ${businessConfig.dashboard.invoicesLabel.toLowerCase().slice(0, -1)} récente.`} />
+            <EmptyRow
+              label={`Aucune ${businessConfig.dashboard.invoicesLabel.toLowerCase().slice(0, -1)} récente.`}
+            />
           ) : (
             recentInvoices.map((invoice) => (
               <RecentRow
