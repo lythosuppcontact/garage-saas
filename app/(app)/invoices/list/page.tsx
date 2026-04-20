@@ -110,8 +110,18 @@ export default function InvoicesListPage() {
       return;
     }
 
-    setInvoices((data as InvoiceRow[]) || []);
-    setLoading(false);
+const normalizedInvoices: InvoiceRow[] = ((data || []) as any[]).map((invoice) => ({
+  ...invoice,
+  customers: Array.isArray(invoice.customers)
+    ? invoice.customers[0] || null
+    : invoice.customers || null,
+  vehicles: Array.isArray(invoice.vehicles)
+    ? invoice.vehicles[0] || null
+    : invoice.vehicles || null,
+}));
+
+setInvoices(normalizedInvoices);
+setLoading(false);
   };
 
   useEffect(() => {
