@@ -36,10 +36,18 @@ export const vehicleSchema = z.object({
 
   year: z.preprocess(
     emptyToNull,
-    z.coerce
-      .number({
-        invalid_type_error: "L'année doit être un nombre",
-      })
+year: z.preprocess(
+  emptyToNull,
+  z.coerce
+    .number()
+    .refine((val) => !isNaN(val), {
+      message: "L'année doit être un nombre",
+    })
+    .int("L'année doit être un entier")
+    .min(1900, "Année invalide")
+    .max(2100, "Année invalide")
+    .nullable()
+),
       .int("L'année doit être un entier")
       .min(1900, "Année invalide")
       .max(2100, "Année invalide")
