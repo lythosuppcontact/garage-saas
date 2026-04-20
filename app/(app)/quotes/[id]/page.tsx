@@ -787,7 +787,17 @@ export default function QuoteDetailPage() {
         return;
       }
 
-      setQuote(quoteData as Quote);
+      const normalizedQuote: Quote = {
+  ...quoteData,
+  customers: Array.isArray(quoteData.customers)
+    ? quoteData.customers[0] || null
+    : quoteData.customers || null,
+  vehicles: Array.isArray(quoteData.vehicles)
+    ? quoteData.vehicles[0] || null
+    : quoteData.vehicles || null,
+};
+
+setQuote(normalizedQuote);
       setItems((itemsData as QuoteItem[]) || []);
     } catch (error) {
       console.error(error);

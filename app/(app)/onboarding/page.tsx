@@ -133,9 +133,9 @@ export default function OnboardingPage() {
       const starterSetup = getBusinessStarterSetup(selected);
 
       const payload = {
-        business_type: selected,
-        ...starterSetup,
-      };
+  ...starterSetup,
+  business_type: selected,
+};
 
       const { data, error } = await supabase
         .from("companies")
